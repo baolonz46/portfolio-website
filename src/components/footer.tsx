@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { InstagramIcon } from "@/components/social";
 
 export default function Footer() {
   return (
@@ -14,9 +15,9 @@ export default function Footer() {
           </a>
         </div>
 
-        {/* Nome · Telefono WhatsApp e Area riservata sulla destra (stile Macula) */}
+        {/* Nome · Icona Instagram e Area riservata sulla destra */}
         <div className="flex flex-wrap items-center justify-center sm:justify-end gap-x-5 gap-y-2">
-          <div className="text-sm md:text-[15px]">
+          <div className="flex items-center gap-2.5 text-sm md:text-[15px]">
             <a
               href="https://www.instagram.com/maarcpaolo"
               target="_blank"
@@ -25,14 +26,15 @@ export default function Footer() {
             >
               Paolo Marcheselli
             </a>
-            <span className="mx-2 text-white/40">·</span>
+            <span className="text-white/40">·</span>
             <a
-              href="https://wa.me/393703037565"
+              href="https://www.instagram.com/maarcpaolo"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline underline-offset-4 hover:opacity-75 transition-opacity text-white"
+              aria-label="Instagram"
+              className="text-white hover:opacity-75 transition-opacity inline-flex items-center"
             >
-              +39 370 303 7565
+              <InstagramIcon className="h-5 w-5" />
             </a>
           </div>
 
