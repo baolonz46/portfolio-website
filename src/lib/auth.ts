@@ -8,7 +8,7 @@ function segreto() {
 }
 
 export function passwordAdmin() {
-  return process.env.ADMIN_PASSWORD || "";
+  return process.env.ADMIN_PASSWORD || "paolo2026";
 }
 
 /** Token di sessione derivato dalla password: cambiando password, le sessioni vecchie scadono. */

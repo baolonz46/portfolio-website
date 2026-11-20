@@ -39,7 +39,7 @@ export default function Footer() {
           </div>
 
           <Link
-            href="/area-riservata.html"
+            href="/area-riservata"
             className="text-xs uppercase tracking-widest text-white/35 hover:text-white/80 hover:underline underline-offset-4 transition-colors cursor-pointer"
           >
             Area riservata

@@ -39,7 +39,7 @@ export type DatiCliente = Omit<Cliente, "id" | "creatoIl" | "aggiornatoIl">;
  * Funziona in locale; per la messa online (Vercel) andrà sostituito
  * con un database (es. Supabase/Neon) mantenendo le stesse funzioni.
  */
-const DATA_DIR = path.join(process.cwd(), "data");
+const DATA_DIR = process.env.VERCEL ? "/tmp" : path.join(process.cwd(), "data");
 const DATA_FILE = path.join(DATA_DIR, "clienti.json");
 
 async function leggi(): Promise<Cliente[]> {
