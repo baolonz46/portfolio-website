@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Area Riservata — Paolo Marcheselli</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            itc: ["ITC", "system-ui", "sans-serif"],
+            times: ["Times New Roman", "Times", "Baskerville", "Georgia", "serif"],
+          },
+          colors: {
+            brandRed: "#e50914",
+            brandGold: "#c9a84c",
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-[#050505] text-[#f5f5f5] font-itc selection:bg-white selection:text-black min-h-screen">
+
+  <!-- ───────── VISTA LOGIN ───────── -->
+  <div id="login-view" class="flex min-h-screen flex-col items-center justify-center px-6">
+    <div class="w-full max-w-sm">
+      <p class="mb-3 text-center text-[10px] uppercase tracking-[0.35em] text-white/40">Area riservata</p>
+      <h1 class="mb-10 text-center font-times text-4xl">
+        Paolo <span class="italic text-white/80">Marcheselli</span>
+      </h1>
+
+      <form id="login-form" class="space-y-6">
+        <div>
+          <label class="mb-2 block text-[10px] uppercase tracking-[0.25em] text-white/50">Password</label>
+          <input
+            id="login-password"
+            type="password"
+            required
+            autofocus
+            autocomplete="current-password"
+            placeholder="••••••••"
+            class="w-full border-b border-white/20 bg-transparent py-3 text-lg outline-none transition-colors focus:border-white font-itc text-white"
+          />
+        </div>
+
+        <p id="login-error" class="hidden text-xs text-[#e50914] tracking-wide"></p>
+
+        <button
+          type="submit"
+          id="login-btn"
+          class="w-full bg-white py-4 text-[11px] font-semibold uppercase tracking-[0.3em] text-black transition-opacity hover:opacity-85"
+        >
+          Entra
+        </button>
+      </form>
+
+      <a href="index.html" class="mt-10 block text-center text-[10px] uppercase tracking-[0.25em] text-white/40 hover:text-white transition-colors">
+        ← Torna al sito
+      </a>
+    </div>
+  </div>
+
+  <!-- ───────── VISTA DASHBOARD CLIENTI ───────── -->
+  <div id="dashboard-view" class="hidden min-h-screen flex-col">
+    <!-- Header Dashboard -->
+    <header class="sticky top-0 z-30 border-b border-white/10 bg-[#080808]/90 backdrop-blur-md">
+      <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 md:px-14">
+        <a href="index.html" class="font-itc text-lg font-bold tracking-tight text-white hover:opacity-80 transition-opacity">
+          pauland<span class="text-[#e50914]">video</span>
+        </a>
+        <div class="flex items-center gap-6 text-[11px] uppercase tracking-[0.2em] text-white/60">
+          <span class="hidden sm:inline text-white/30">Gestione Clienti</span>
+          <button id="logout-btn" class="text-white/60 hover:text-white transition-colors">
+            Esci
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="mx-auto w-full max-w-7xl px-6 md:px-14 py-10 flex-1">
+      
+      <!-- Titolo & Bottone Nuovo Cliente -->
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 border-b border-white/10 pb-6">
+        <div>
+          <span class="text-[10px] uppercase tracking-[0.3em] text-white/40">Database Privato</span>
+          <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-white mt-1">Clienti &amp; Contatti</h1>
+        </div>
+        <button
+          id="btn-open-modal"
+          class="inline-flex items-center gap-2 rounded-md bg-white px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-black transition-opacity hover:opacity-90 active:scale-95"
+        >
+          <span>+</span> Nuovo Cliente
+        </button>
+      </div>
+
+      <!-- Filtri di Stato & Ricerca -->
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
+        <!-- Badge Contatori -->
+        <div class="flex flex-wrap gap-2 text-xs">
+          <button data-filter="tutti" class="filter-tab px-3 py-1.5 rounded-full border border-white bg-white text-black font-medium transition-all">
+            Tutti (<span id="count-tutti">0</span>)
+          </button>
+          <button data-filter="lead" class="filter-tab px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-white/70 hover:border-white/30 transition-all">
+            Lead (<span id="count-lead">0</span>)
+          </button>
+          <button data-filter="in-corso" class="filter-tab px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-white/70 hover:border-white/30 transition-all">
+            In corso (<span id="count-in-corso">0</span>)
+          </button>
+          <button data-filter="completato" class="filter-tab px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-white/70 hover:border-white/30 transition-all">
+            Completati (<span id="count-completato">0</span>)
+          </button>
+        </div>
+
+        <!-- Barra di Ricerca -->
+        <div class="w-full md:w-72">
+          <input
+            id="search-input"
+            type="text"
+            placeholder="Cerca cliente, telefono, note..."
+            class="w-full rounded-md border border-white/10 bg-[#111111] px-3.5 py-2 text-xs text-white placeholder-white/40 outline-none focus:border-white/30"
+          />
+        </div>
+      </div>
+
+      <!-- Lista Card Clienti -->
+      <div id="clients-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Renderizzato via JS -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="empty-state" class="hidden text-center py-20 text-white/40 text-xs tracking-wider uppercase">
+        Nessun cliente trovato
+      </div>
+    </main>
+  </div>
+
+  <!-- ───────── MODALE AGGIUNGI / MODIFICA CLIENTE ───────── -->
+  <div id="client-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4 overflow-y-auto">
+    <div class="w-full max-w-lg rounded-lg border border-white/15 bg-[#0e0e0e] p-6 sm:p-8 shadow-2xl my-8">
+      <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
+        <h3 id="modal-title" class="text-lg font-bold text-white tracking-tight">Nuovo Cliente</h3>
+        <button id="modal-close-btn" class="text-white/40 hover:text-white transition-colors text-xl font-mono leading-none">&times;</button>
+      </div>
+
+      <form id="client-form" class="space-y-4 text-xs font-itc">
+        <input type="hidden" id="field-id" value="">
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-white/60 mb-1 uppercase tracking-wider text-[10px]">Nome e Cognome</label>
+            <input id="field-nomeCognome" type="text" class="w-full rounded bg-[#181818] border border-white/10 px-3 py-2 text-white outline-none focus:border-white/40" />
+          </div>
+          <div>
+            <label class="block text-white/60 mb-1 uppercase tracking-wider text-[10px]">Nome Attività / Brand</label>
+            <input id="field-nomeAttivita" type="text" class="w-full rounded bg-[#181818] border border-white/10 px-3 py-2 text-white outline-none focus:border-white/40" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-white/60 mb-1 uppercase tracking-wider text-[10px]">Telefono Persona</label>
+            <input id="field-telefonoPersona" type="text" class="w-full rounded bg-[#181818] border border-white/10 px-3 py-2 text-white outline-none focus:border-white/40" />
+          </div>
+          <div>
+            <label class="block text-white/60 mb-1 uppercase tracking-wider text-[10px]">Telefono Attività</label>
+            <input id="field-telefonoAttivita" type="text" class="w-full rounded bg-[#181818] border border-white/10 px-3 py-2 text-white outline-none focus:border-white/40" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-white/60 mb-1 uppercase tracking-wider text-[10px]">Email Persona</label>
+            <input id="field-emailPersona" type="email" class="w-full rounded bg-[#181818] border border-white/10 px-3 py-2 text-white outline-none focus:border-white/40" />
+          </div>
+          <div>
+            <label class="block text-white/60 mb-1 uppercase tracking-wider text-[10px]">Email Attività</label>
+            <input id="field-emailAttivita" type="email" class="w-full rounded bg-[#181818] border border-white/10 px-3 py-2 text-white outline-none focus:border-white/40" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-white/60 mb-1 uppercase tracking-wider text-[10px]">Stato Progetto</label>
+          <select id="field-stato" class="w-full rounded bg-[#181818] border border-white/10 px-3 py-2 text-white outline-none focus:border-white/40">
+            <option value="lead">Lead (Contatto iniziale)</option>
+            <option value="in-corso">In corso (Lavoro avviato)</option>
+            <option value="completato">Completato (Chiuso)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-white/60 mb-1 uppercase tracking-wider text-[10px]">Descrizione / Note</label>
+          <textarea id="field-descrizione" rows="3" class="w-full rounded bg-[#181818] border border-white/10 px-3 py-2 text-white outline-none focus:border-white/40"></textarea>
+        </div>
+
+        <div class="space-y-2 pt-2 border-t border-white/10">
+          <label class="block text-white/40 uppercase tracking-widest text-[9px]">Collegamenti Esterni (Opzionali)</label>
+          <input id="field-linkFogli" type="url" placeholder="Google Fogli (URL)" class="w-full rounded bg-[#181818] border border-white/10 px-3 py-1.5 text-white outline-none focus:border-white/40 text-[11px]" />
+          <input id="field-linkDocs" type="url" placeholder="Google Docs (URL)" class="w-full rounded bg-[#181818] border border-white/10 px-3 py-1.5 text-white outline-none focus:border-white/40 text-[11px]" />
+          <input id="field-linkMaps" type="url" placeholder="Google Maps (URL)" class="w-full rounded bg-[#181818] border border-white/10 px-3 py-1.5 text-white outline-none focus:border-white/40 text-[11px]" />
+          <input id="field-linkNotion" type="url" placeholder="Notion (URL)" class="w-full rounded bg-[#181818] border border-white/10 px-3 py-1.5 text-white outline-none focus:border-white/40 text-[11px]" />
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+          <button type="button" id="btn-cancel" class="px-4 py-2 rounded text-white/60 hover:text-white transition-colors">Annulla</button>
+          <button type="submit" class="px-5 py-2 rounded bg-white text-black font-semibold uppercase tracking-wider hover:opacity-90">Salva</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ───────── JAVASCRIPT GESTIONALE ───────── -->
+  <script>
+    let clientiData = [];
+    let currentFilter = "tutti";
+    let searchQuery = "";
+
+    const loginView = document.getElementById("login-view");
+    const dashboardView = document.getElementById("dashboard-view");
+    const loginForm = document.getElementById("login-form");
+    const loginError = document.getElementById("login-error");
+    const logoutBtn = document.getElementById("logout-btn");
+    const clientsGrid = document.getElementById("clients-grid");
+    const emptyState = document.getElementById("empty-state");
+    const searchInput = document.getElementById("search-input");
+    const filterTabs = document.querySelectorAll(".filter-tab");
+
+    const modal = document.getElementById("client-modal");
+    const clientForm = document.getElementById("client-form");
+    const btnOpenModal = document.getElementById("btn-open-modal");
+    const btnCancel = document.getElementById("btn-cancel");
+    const modalCloseBtn = document.getElementById("modal-close-btn");
+    const modalTitle = document.getElementById("modal-title");
+
+    // Controlla se già autenticato
+    document.addEventListener("DOMContentLoaded", () => {
+      const token = sessionStorage.getItem("pm_token");
+      if (token) {
+        showDashboard();
+      }
+    });
+
+    // Login Form Submit
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      loginError.classList.add("hidden");
+      const password = document.getElementById("login-password").value;
+
+      try {
+        const res = await fetch("/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ password }),
+        });
+        const data = await res.json();
+        if (data.ok && data.token) {
+          sessionStorage.setItem("pm_token", data.token);
+          showDashboard();
+        } else {
+          loginError.textContent = data.errore || "Password non corretta";
+          loginError.classList.remove("hidden");
+        }
+      } catch (err) {
+        loginError.textContent = "Errore di connessione al server";
+        loginError.classList.remove("hidden");
+      }
+    });
+
+    // Logout
+    logoutBtn.addEventListener("click", () => {
+      sessionStorage.removeItem("pm_token");
+      loginView.classList.remove("hidden");
+      dashboardView.classList.add("hidden");
+      document.getElementById("login-password").value = "";
+    });
+
+    function showDashboard() {
+      loginView.classList.add("hidden");
+      dashboardView.classList.remove("hidden");
+      loadClienti();
+    }
+
+    // Carica Clienti
+    async function loadClienti() {
+      const token = sessionStorage.getItem("pm_token");
+      try {
+        const res = await fetch("/api/clienti", {
+          headers: { Authorization: token },
+        });
+        if (res.status === 401) {
+          sessionStorage.removeItem("pm_token");
+          loginView.classList.remove("hidden");
+          dashboardView.classList.add("hidden");
+          return;
+        }
+        const data = await res.json();
+        clientiData = data.clienti || [];
+        renderClienti();
+      } catch (err) {
+        console.error("Errore caricamento clienti:", err);
+      }
+    }
+
+    // Filtri
+    filterTabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        filterTabs.forEach((t) => {
+          t.className = "filter-tab px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-white/70 hover:border-white/30 transition-all";
+        });
+        tab.className = "filter-tab px-3 py-1.5 rounded-full border border-white bg-white text-black font-medium transition-all";
+        currentFilter = tab.getAttribute("data-filter");
+        renderClienti();
+      });
+    });
+
+    // Ricerca
+    searchInput.addEventListener("input", (e) => {
+      searchQuery = e.target.value.toLowerCase().trim();
+      renderClienti();
+    });
+
+    // Render Clienti Cards
+    function renderClienti() {
+      // Aggiorna contatori
+      document.getElementById("count-tutti").textContent = clientiData.length;
+      document.getElementById("count-lead").textContent = clientiData.filter((c) => c.stato === "lead").length;
+      document.getElementById("count-in-corso").textContent = clientiData.filter((c) => c.stato === "in-corso").length;
+      document.getElementById("count-completato").textContent = clientiData.filter((c) => c.stato === "completato").length;
+
+      // Filtra
+      let list = clientiData;
+      if (currentFilter !== "tutti") {
+        list = list.filter((c) => c.stato === currentFilter);
+      }
+      if (searchQuery) {
+        list = list.filter((c) => {
+          const text = [
+            c.nomeCognome,
+            c.nomeAttivita,
+            c.telefonoPersona,
+            c.telefonoAttivita,
+            c.emailPersona,
+            c.emailAttivita,
+            c.descrizione,
+            c.stato
+          ].join(" ").toLowerCase();
+          return text.includes(searchQuery);
+        });
+      }
+
+      if (list.length === 0) {
+        clientsGrid.innerHTML = "";
+        emptyState.classList.remove("hidden");
+        return;
+      }
+
+      emptyState.classList.add("hidden");
+      clientsGrid.innerHTML = list.map((c) => {
+        let badgeClass = "border-white/20 bg-white/5 text-white/70";
+        let badgeLabel = "Lead";
+        if (c.stato === "in-corso") {
+          badgeClass = "border-amber-500/40 bg-amber-500/10 text-amber-400";
+          badgeLabel = "In corso";
+        } else if (c.stato === "completato") {
+          badgeClass = "border-emerald-500/40 bg-emerald-500/10 text-emerald-400";
+          badgeLabel = "Completato";
+        }
+
+        const links = [];
+        if (c.linkFogli) links.push(`<a href="${c.linkFogli}" target="_blank" class="hover:text-white transition-colors text-[10px] text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded">Fogli ↗</a>`);
+        if (c.linkDocs) links.push(`<a href="${c.linkDocs}" target="_blank" class="hover:text-white transition-colors text-[10px] text-blue-400 border border-blue-500/30 px-2 py-0.5 rounded">Docs ↗</a>`);
+        if (c.linkMaps) links.push(`<a href="${c.linkMaps}" target="_blank" class="hover:text-white transition-colors text-[10px] text-rose-400 border border-rose-500/30 px-2 py-0.5 rounded">Maps ↗</a>`);
+        if (c.linkNotion) links.push(`<a href="${c.linkNotion}" target="_blank" class="hover:text-white transition-colors text-[10px] text-white/80 border border-white/20 px-2 py-0.5 rounded">Notion ↗</a>`);
+
+        return `
+          <div class="rounded-lg border border-white/10 bg-[#0d0d0d] p-5 flex flex-col justify-between hover:border-white/20 transition-all">
+            <div>
+              <div class="flex items-start justify-between gap-3 mb-2">
+                <div>
+                  <h3 class="font-bold text-base text-white tracking-tight leading-tight">${c.nomeCognome || "—"}</h3>
+                  ${c.nomeAttivita ? `<p class="text-xs text-white/50">${c.nomeAttivita}</p>` : ""}
+                </div>
+                <span class="text-[9px] uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${badgeClass}">
+                  ${badgeLabel}
+                </span>
+              </div>
+
+              <!-- Contatti -->
+              <div class="my-3 space-y-1 text-xs text-white/70">
+                ${c.telefonoPersona || c.telefonoAttivita ? `
+                  <div class="flex items-center gap-2">
+                    <span class="text-white/40">📞</span>
+                    <a href="tel:${c.telefonoPersona || c.telefonoAttivita}" class="hover:underline">${c.telefonoPersona || c.telefonoAttivita}</a>
+                  </div>
+                ` : ""}
+                ${c.emailPersona || c.emailAttivita ? `
+                  <div class="flex items-center gap-2">
+                    <span class="text-white/40">✉️</span>
+                    <a href="mailto:${c.emailPersona || c.emailAttivita}" class="hover:underline">${c.emailPersona || c.emailAttivita}</a>
+                  </div>
+                ` : ""}
+              </div>
+
+              <!-- Note -->
+              ${c.descrizione ? `<p class="text-xs text-white/60 bg-white/5 p-2.5 rounded border border-white/5 my-3 line-clamp-4 leading-relaxed">${c.descrizione}</p>` : ""}
+
+              <!-- Collegamenti -->
+              ${links.length > 0 ? `<div class="flex flex-wrap gap-1.5 my-3">${links.join("")}</div>` : ""}
+            </div>
+
+            <!-- Bottoni Azione -->
+            <div class="flex items-center justify-end gap-2 pt-3 border-t border-white/10 mt-2 text-xs">
+              <button onclick="openEditModal('${c.id}')" class="px-3 py-1 rounded bg-white/10 text-white hover:bg-white/20 transition-colors">Modifica</button>
+              <button onclick="deleteClient('${c.id}')" class="px-3 py-1 rounded bg-[#e50914]/15 text-[#e50914] hover:bg-[#e50914]/30 transition-colors">Elimina</button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // Gestione Modale
+    btnOpenModal.addEventListener("click", () => {
+      clientForm.reset();
+      document.getElementById("field-id").value = "";
+      modalTitle.textContent = "Nuovo Cliente";
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    });
+
+    function closeModal() {
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    }
+
+    btnCancel.addEventListener("click", closeModal);
+    modalCloseBtn.addEventListener("click", closeModal);
+
+    // Apri Modifica Cliente
+    window.openEditModal = function(id) {
+      const c = clientiData.find((x) => x.id === id);
+      if (!c) return;
+      document.getElementById("field-id").value = c.id;
+      document.getElementById("field-nomeCognome").value = c.nomeCognome || "";
+      document.getElementById("field-nomeAttivita").value = c.nomeAttivita || "";
+      document.getElementById("field-telefonoPersona").value = c.telefonoPersona || "";
+      document.getElementById("field-telefonoAttivita").value = c.telefonoAttivita || "";
+      document.getElementById("field-emailPersona").value = c.emailPersona || "";
+      document.getElementById("field-emailAttivita").value = c.emailAttivita || "";
+      document.getElementById("field-stato").value = c.stato || "lead";
+      document.getElementById("field-descrizione").value = c.descrizione || "";
+      document.getElementById("field-linkFogli").value = c.linkFogli || "";
+      document.getElementById("field-linkDocs").value = c.linkDocs || "";
+      document.getElementById("field-linkMaps").value = c.linkMaps || "";
+      document.getElementById("field-linkNotion").value = c.linkNotion || "";
+
+      modalTitle.textContent = "Modifica Cliente";
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    };
+
+    // Salva Cliente Form Submit
+    clientForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const token = sessionStorage.getItem("pm_token");
+      const id = document.getElementById("field-id").value;
+
+      const payload = {
+        nomeCognome: document.getElementById("field-nomeCognome").value,
+        nomeAttivita: document.getElementById("field-nomeAttivita").value,
+        telefonoPersona: document.getElementById("field-telefonoPersona").value,
+        telefonoAttivita: document.getElementById("field-telefonoAttivita").value,
+        emailPersona: document.getElementById("field-emailPersona").value,
+        emailAttivita: document.getElementById("field-emailAttivita").value,
+        stato: document.getElementById("field-stato").value,
+        descrizione: document.getElementById("field-descrizione").value,
+        linkFogli: document.getElementById("field-linkFogli").value,
+        linkDocs: document.getElementById("field-linkDocs").value,
+        linkMaps: document.getElementById("field-linkMaps").value,
+        linkNotion: document.getElementById("field-linkNotion").value,
+      };
+
+      try {
+        let res;
+        if (id) {
+          res = await fetch(`/api/clienti/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json", Authorization: token },
+            body: JSON.stringify(payload),
+          });
+        } else {
+          res = await fetch("/api/clienti", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Authorization: token },
+            body: JSON.stringify(payload),
+          });
+        }
+
+        const data = await res.json();
+        if (data.ok) {
+          closeModal();
+          loadClienti();
+        } else {
+          alert(data.errore || "Errore durante il salvataggio");
+        }
+      } catch (err) {
+        alert("Errore di rete durante il salvataggio");
+      }
+    });
+
+    // Elimina Cliente
+    window.deleteClient = async function(id) {
+      const c = clientiData.find((x) => x.id === id);
+      if (!confirm(`Sei sicuro di voler eliminare "${c ? (c.nomeCognome || c.nomeAttivita) : 'questo cliente'}"?`)) return;
+
+      const token = sessionStorage.getItem("pm_token");
+      try {
+        const res = await fetch(`/api/clienti/${id}`, {
+          method: "DELETE",
+          headers: { Authorization: token },
+        });
+        const data = await res.json();
+        if (data.ok) {
+          loadClienti();
+        } else {
+          alert(data.errore || "Errore durante l'eliminazione");
+        }
+      } catch {
+        alert("Errore di rete durante l'eliminazione");
+      }
+    };
+  </script>
+</body>
+</html>

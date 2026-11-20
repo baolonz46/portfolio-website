@@ -14,9 +14,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Paolo Marcheselli — Fotografia & Video",
+  title: "paulandvideo",
   description:
-    "Fotografo e videomaker. Ritratti, food, brand e racconti visivi.",
+    "paulandvideo — Fotografia & Video.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

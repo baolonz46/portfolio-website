@@ -43,3 +43,4 @@ next-env.d.ts
 # archivio clienti locale (dati personali)
 /data
 
+.aider*

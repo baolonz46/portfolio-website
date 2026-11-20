@@ -27,7 +27,7 @@ export function MailIcon({ className }: IconProps) {
   );
 }
 
-export const EMAIL = "paolomarcheselli@gmail.com";
+export const EMAIL = "marchesellipaolo9@gmail.com";
 
 /** Icone social: nere di default (ereditano il colore del testo). */
 export function SocialLinks({ className = "", iconClassName = "h-6 w-6" }: { className?: string; iconClassName?: string }) {

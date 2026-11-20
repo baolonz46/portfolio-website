@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>paulandvideo — Paolo Marcheselli</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            itc: ["ITC", "system-ui", "sans-serif"],
+            times: ["Times New Roman", "Times", "Baskerville", "Georgia", "serif"],
+          },
+          colors: {
+            brandRed: "#e50914",
+            brandGold: "#c9a84c",
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom CSS (Font ITC, Animazioni, Marquee, Emoji Cursor) -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-[#050505] text-[#f5f5f5] font-itc selection:bg-white selection:text-black">
+
+  <!-- Cursore Emoji Fluttuante che segue il mouse -->
+  <div id="emoji-cursor"></div>
+
+  <!-- ───────── Header Minimal ───────── -->
+  <header class="fixed inset-x-0 top-0 z-50 flex h-20 items-center justify-between px-6 md:px-14 bg-gradient-to-b from-black/85 via-black/40 to-transparent transition-all duration-300">
+    <a href="#top" class="group flex items-center gap-2">
+      <span class="font-itc text-lg md:text-xl font-bold tracking-tight text-white group-hover:opacity-80 transition-opacity">
+        pauland<span class="text-[#e50914]">video</span>
+      </span>
+    </a>
+
+    <nav class="flex items-center gap-8 md:gap-12 text-[11px] md:text-xs uppercase tracking-[0.25em] text-white/70 font-itc">
+      <a href="#works" class="hover:text-white transition-colors">Lavori</a>
+      <a href="#contact" class="hover:text-white transition-colors">Contatti</a>
+    </nav>
+  </header>
+
+  <!-- ───────── Hero Fullscreen con Video Background (Sec 7 - 25) ───────── -->
+  <section id="top" class="relative flex h-[100svh] w-full items-center justify-center overflow-hidden">
+    <!-- Video Loop ottimizzato -->
+    <video
+      id="hero-video"
+      src="media/hero-video.mp4"
+      autoplay
+      loop
+      muted
+      playsinline
+      preload="auto"
+      class="absolute inset-0 h-full w-full object-cover pointer-events-none brightness-75 scale-105"
+    ></video>
+
+    <!-- Dark Overlay filmico -->
+    <div class="absolute inset-0 bg-black/45 backdrop-brightness-90 z-10"></div>
+
+    <!-- Hero Content -->
+    <div class="relative z-20 mx-auto flex max-w-4xl flex-col items-center px-6 text-center">
+      <!-- Payoff in Times Italic -->
+      <h1 class="rise font-times italic text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal tracking-tight text-white drop-shadow-md">
+        &ldquo;Ogni scatto conta&rdquo;
+      </h1>
+
+      <!-- Sottotitolo Typewriter in Times -->
+      <h2 class="rise mt-6 text-lg sm:text-2xl md:text-3xl text-white font-times tracking-wide [animation-delay:200ms]">
+        <span id="typewriter" class="border-r-2 border-white/60 pr-1"></span>
+        <span class="text-white/80 font-times">by Paolo Marcheselli</span>
+      </h2>
+    </div>
+
+    <!-- Scroll indicator discreto in basso -->
+    <a
+      href="#works"
+      class="absolute bottom-8 left-1/2 z-20 -translate-x-1/2 text-[10px] uppercase tracking-[0.3em] text-white/50 hover:text-white transition-colors animate-pulse font-itc"
+    >
+      Scorri giù ↓
+    </a>
+  </section>
+
+  <!-- ───────── Ticker / Marquee Brands ───────── -->
+  <div class="w-full overflow-hidden border-y border-white/10 bg-[#080808] py-4">
+    <div class="animate-marquee whitespace-nowrap text-xs md:text-sm uppercase tracking-[0.35em] text-white/40 font-itc select-none">
+      <span class="mx-8 font-semibold text-white/70">PAOLO MARCHESELLI</span>
+      <span class="mx-8">✦</span>
+      <span class="mx-8 font-semibold text-white/70">POSTCARD FROM NAPOLI</span>
+      <span class="mx-8">✦</span>
+      <span class="mx-8 font-semibold text-white/70">PITITTOS</span>
+      <span class="mx-8">✦</span>
+      <span class="mx-8 font-semibold text-white/70">COMMERCIAL &amp; TVC</span>
+      <span class="mx-8">✦</span>
+      <span class="mx-8 font-semibold text-white/70">FOOD &amp; CRAFT</span>
+      <span class="mx-8">✦</span>
+      <span class="mx-8 font-semibold text-white/70">CINEMATOGRAPHY</span>
+      <span class="mx-8">✦</span>
+      <span class="mx-8 font-semibold text-white/70">PAOLO MARCHESELLI</span>
+      <span class="mx-8">✦</span>
+      <span class="mx-8 font-semibold text-white/70">POSTCARD FROM NAPOLI</span>
+      <span class="mx-8">✦</span>
+      <span class="mx-8 font-semibold text-white/70">PITITTOS</span>
+      <span class="mx-8">✦</span>
+      <span class="mx-8 font-semibold text-white/70">COMMERCIAL &amp; TVC</span>
+      <span class="mx-8">✦</span>
+      <span class="mx-8 font-semibold text-white/70">FOOD &amp; CRAFT</span>
+      <span class="mx-8">✦</span>
+      <span class="mx-8 font-semibold text-white/70">CINEMATOGRAPHY</span>
+      <span class="mx-8">✦</span>
+    </div>
+  </div>
+
+  <!-- ───────── Works Section (Margini perfettamente allineati) ───────── -->
+  <section id="works" class="w-full pt-20 pb-28 scroll-mt-20">
+    <div class="mx-auto max-w-7xl px-6 md:px-14">
+      
+      <!-- Intestazione Sezione -->
+      <div class="mb-10 flex items-end justify-between border-b border-white/10 pb-6">
+        <div>
+          <span class="text-[10px] uppercase tracking-[0.3em] text-white/40 font-itc">
+            Progetti Selezionati
+          </span>
+          <h2 class="font-itc text-4xl sm:text-5xl md:text-6xl text-white font-bold tracking-tight mt-1">
+            Lavori &amp; Video
+          </h2>
+        </div>
+        <span class="hidden sm:block text-xs uppercase tracking-[0.25em] text-white/40 font-itc">
+          01 — 02
+        </span>
+      </div>
+
+      <!-- Griglia Progetti: Stessa altezza e bordi allineati al millimetro con la linea sopra -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+        
+        <!-- Progetto 1: Postcard from Napoli (Awarded) -->
+        <a
+          href="projects/postcardfromnapoli.html"
+          data-emoji="🍕"
+          class="has-emoji-cursor group relative block w-full overflow-hidden rounded-md bg-[#0d0d0d] aspect-[16/10] border-2 border-[#c9a84c] shadow-[0_0_30px_rgba(201,168,76,0.18)] transition-all duration-500"
+        >
+          <!-- Immagine di Copertina -->
+          <img
+            src="media/pizzeria/Foto1.jpg"
+            alt="Postcard from Napoli"
+            class="h-full w-full object-cover transition-all duration-700 ease-out group-hover:scale-105"
+          />
+
+          <!-- Video preview al passaggio del mouse -->
+          <video
+            src="media/VideoPizzeriaOrizzontale.mp4"
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            class="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none"
+          ></video>
+
+          <!-- Dark Overlay filmico -->
+          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/10 transition-opacity duration-300 group-hover:from-black/90 group-hover:via-black/30"></div>
+
+          <!-- Badge AWARDED in alto a destra -->
+          <span class="absolute top-5 right-5 z-20 text-[10px] md:text-xs uppercase tracking-[0.25em] text-[#d4af37] font-semibold drop-shadow font-itc">
+            AWARDED
+          </span>
+
+          <!-- Titolo in basso a sinistra -->
+          <div class="absolute inset-x-0 bottom-0 z-20 p-6 md:p-8 flex flex-col justify-end transition-transform duration-300">
+            <h3 class="font-itc text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white drop-shadow-md group-hover:translate-x-1 transition-transform duration-300 leading-tight">
+              Postcard from Napoli
+            </h3>
+          </div>
+        </a>
+
+        <!-- Progetto 2: Pitittos -->
+        <a
+          href="projects/pitittos.html"
+          data-emoji="🥐"
+          class="has-emoji-cursor group relative block w-full overflow-hidden rounded-md bg-[#0d0d0d] aspect-[16/10] border border-white/10 hover:border-white/30 transition-all duration-500"
+        >
+          <!-- Immagine di Copertina -->
+          <img
+            src="media/cannoli/Foto3.jpg"
+            alt="Pitittos"
+            class="h-full w-full object-cover transition-all duration-700 ease-out group-hover:scale-105"
+          />
+
+          <!-- Video preview al passaggio del mouse -->
+          <video
+            src="media/cannoli/VideoVerticale1.mp4"
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            class="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none"
+          ></video>
+
+          <!-- Dark Overlay filmico -->
+          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/10 transition-opacity duration-300 group-hover:from-black/90 group-hover:via-black/30"></div>
+
+          <!-- Titolo in basso a sinistra -->
+          <div class="absolute inset-x-0 bottom-0 z-20 p-6 md:p-8 flex flex-col justify-end transition-transform duration-300">
+            <h3 class="font-itc text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white drop-shadow-md group-hover:translate-x-1 transition-transform duration-300 leading-tight">
+              Pitittos
+            </h3>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── Footer Minimal ───────── -->
+  <footer id="contact" class="w-full bg-black py-12 border-t border-white/10 font-itc">
+    <div class="mx-auto max-w-7xl px-6 md:px-14 flex flex-col sm:flex-row items-center justify-between gap-6 text-sm md:text-[15px] text-white">
+      <!-- Email a sinistra -->
+      <div>
+        <a
+          href="mailto:marchesellipaolo9@gmail.com"
+          class="underline underline-offset-4 hover:opacity-75 transition-opacity"
+        >
+          marchesellipaolo9@gmail.com
+        </a>
+      </div>
+
+      <!-- Nome · Telefono WhatsApp e Area riservata a destra (stile Macula) -->
+      <div class="flex flex-wrap items-center justify-center sm:justify-end gap-x-5 gap-y-2">
+        <div class="text-sm md:text-[15px]">
+          <a
+            href="https://www.instagram.com/maarcpaolo"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:underline underline-offset-4 transition-all"
+          >
+            Paolo Marcheselli
+          </a>
+          <span class="mx-2 text-white/40">·</span>
+          <a
+            href="https://wa.me/393703037565"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="underline underline-offset-4 hover:opacity-75 transition-opacity text-white"
+          >
+            +39 370 303 7565
+          </a>
+        </div>
+
+        <a
+          href="/area-riservata.html"
+          class="text-xs uppercase tracking-widest text-white/35 hover:text-white/80 hover:underline underline-offset-4 transition-colors cursor-pointer"
+        >
+          Area riservata
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script Player & Animazioni -->
+  <script src="js/player.js"></script>
+</body>
+</html>
