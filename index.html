@@ -130,12 +130,12 @@
           </h2>
         </div>
         <span class="hidden sm:block text-xs uppercase tracking-[0.25em] text-white/40 font-itc">
-          01 — 02
+          01 — 03
         </span>
       </div>
 
-      <!-- Griglia Progetti: Stessa altezza e bordi allineati al millimetro con la linea sopra -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+      <!-- Griglia Progetti -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
         
         <!-- Progetto 1: Postcard from Napoli (Awarded) -->
         <a
@@ -206,6 +206,40 @@
           <div class="absolute inset-x-0 bottom-0 z-20 p-6 md:p-8 flex flex-col justify-end transition-transform duration-300">
             <h3 class="font-itc text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white drop-shadow-md group-hover:translate-x-1 transition-transform duration-300 leading-tight">
               Pitittos
+            </h3>
+          </div>
+        </a>
+
+        <!-- Progetto 3: Pizzeria Urbana -->
+        <a
+          href="/projects/pizzeria-urbana"
+          data-emoji="🍕"
+          class="has-emoji-cursor group relative block w-full overflow-hidden rounded-md bg-[#0d0d0d] aspect-[16/10] border border-white/10 hover:border-white/30 transition-all duration-500"
+        >
+          <!-- Immagine di Copertina -->
+          <img
+            src="media/pizzeria-urbana/copertina.jpg"
+            alt="Pizzeria Urbana"
+            class="h-full w-full object-cover transition-all duration-700 ease-out group-hover:scale-105"
+          />
+
+          <!-- Video preview al passaggio del mouse -->
+          <video
+            src="media/pizzeria-urbana/urbana.mp4"
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            class="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none"
+          ></video>
+
+          <!-- Dark Overlay filmico -->
+          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/10 transition-opacity duration-300 group-hover:from-black/90 group-hover:via-black/30"></div>
+
+          <!-- Titolo in basso a sinistra -->
+          <div class="absolute inset-x-0 bottom-0 z-20 p-6 md:p-8 flex flex-col justify-end transition-transform duration-300">
+            <h3 class="font-itc text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white drop-shadow-md group-hover:translate-x-1 transition-transform duration-300 leading-tight">
+              Pizzeria Urbana
             </h3>
           </div>
         </a>

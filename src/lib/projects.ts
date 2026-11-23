@@ -48,4 +48,16 @@ export const works: WorkItem[] = [
       { tipo: "foto", src: "/media/cannoli/Foto2.jpg", w: 4000, h: 6000 },
     ],
   },
+  {
+    id: "pizzeria-urbana",
+    titolo: "Pizzeria Urbana",
+    categoria: "Food & Craft",
+    emoji: "🍕",
+    orientamento: "verticale",
+    copertina: { src: "/media/pizzeria-urbana/copertina.jpg", w: 1080, h: 1920 },
+    videoLoop: "/media/pizzeria-urbana/urbana.mp4",
+    album: [
+      { tipo: "video", src: "/media/pizzeria-urbana/urbana.mp4", w: 1080, h: 1920 },
+    ],
+  },
 ];
