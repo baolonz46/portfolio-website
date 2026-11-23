@@ -55,16 +55,11 @@ export default function Home() {
 
         {/* Hero Content (stile Macula) */}
         <div className="relative z-20 mx-auto flex max-w-4xl flex-col items-center px-6 text-center">
-          {/* Payoff in TIMES ITALIC */}
-          <h1 className="rise font-times italic text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal tracking-tight text-white drop-shadow-md">
-            &ldquo;Ogni scatto conta&rdquo;
-          </h1>
-
-          {/* Sottotitolo Typewriter in TIMES */}
-          <h2 className="rise mt-6 text-lg sm:text-2xl md:text-3xl text-white font-times tracking-wide [animation-delay:200ms]">
+          {/* Titolo Typewriter in TIMES */}
+          <h1 className="rise text-3xl sm:text-5xl md:text-6xl text-white font-times tracking-wide font-normal drop-shadow-md">
             <Typewriter words={typewriterWords} />{" "}
             <span className="text-white/80 font-times">by Paolo Marcheselli</span>
-          </h2>
+          </h1>
         </div>
 
         {/* Scroll indicator discreto in basso */}
