@@ -11,9 +11,11 @@ function formatTime(seconds: number): string {
 
 export default function ProjectVideoPlayer({
   src,
+  poster,
   isVertical,
 }: {
   src: string;
+  poster?: string;
   isVertical: boolean;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -156,17 +158,18 @@ export default function ProjectVideoPlayer({
       onMouseMove={triggerControls}
       onMouseLeave={() => isPlaying && setShowControls(false)}
       onTouchStart={triggerControls}
-      className={`group relative mb-6 w-full overflow-hidden rounded-md border border-white/10 bg-black shadow-2xl select-none ${
+      className={`group relative mb-8 w-auto overflow-hidden rounded-xl md:rounded-2xl border border-white/20 hover:border-white/35 bg-[#0a0a0a] shadow-[0_20px_60px_rgba(0,0,0,0.95)] ring-1 ring-white/10 select-none transition-all duration-300 ${
         isVertical
-          ? "max-w-[240px] md:max-w-[280px] aspect-[9/16]"
-          : "max-w-xl md:max-w-2xl aspect-video"
+          ? "max-w-[92vw] sm:max-w-[420px] md:max-w-[460px] lg:max-w-[500px] h-[65vh] sm:h-[72vh] md:h-[76vh] max-h-[820px] aspect-[9/16]"
+          : "w-full max-w-3xl md:max-w-4xl lg:max-w-5xl aspect-video"
       }`}
     >
-      {/* Video Element (NO autoPlay) */}
+      {/* Video Element */}
       <video
         ref={videoRef}
         key={src}
         src={src}
+        poster={poster}
         playsInline
         muted
         loop
@@ -179,15 +182,15 @@ export default function ProjectVideoPlayer({
         className="h-full w-full object-cover cursor-pointer"
       />
 
-      {/* Play/Pause Central Overlay Icon (quando in pausa) */}
+      {/* Play/Pause Central Overlay Icon Grande e Chiaro */}
       {!isPlaying && (
         <button
           onClick={togglePlay}
           aria-label="Riproduci"
-          className="absolute inset-0 z-20 m-auto flex h-14 w-14 items-center justify-center rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white transition-transform hover:scale-110 active:scale-95"
+          className="absolute inset-0 z-20 m-auto flex h-20 w-20 md:h-24 md:w-24 items-center justify-center rounded-full bg-black/70 backdrop-blur-md border-2 border-white/40 text-white shadow-[0_0_40px_rgba(0,0,0,0.85)] transition-all duration-300 hover:scale-110 hover:bg-black/85 hover:border-white active:scale-95 group/btn"
         >
           <svg
-            className="w-6 h-6 translate-x-0.5 fill-white"
+            className="w-8 h-8 md:w-10 md:h-10 translate-x-0.5 fill-white transition-transform group-hover/btn:scale-105"
             viewBox="0 0 24 24"
           >
             <polygon points="5 3 19 12 5 21 5 3" />
@@ -197,7 +200,7 @@ export default function ProjectVideoPlayer({
 
       {/* Custom Sleek Bottom Controls Bar */}
       <div
-        className={`absolute inset-x-0 bottom-0 z-20 flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/50 to-transparent pt-10 pb-3 px-3.5 transition-opacity duration-300 font-itc ${
+        className={`absolute inset-x-0 bottom-0 z-20 flex flex-col justify-end bg-gradient-to-t from-black/95 via-black/60 to-transparent pt-14 pb-3.5 px-4 md:px-5 transition-opacity duration-300 font-itc ${
           showControls ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       >
@@ -205,59 +208,58 @@ export default function ProjectVideoPlayer({
         <div
           ref={progressTrackRef}
           onClick={handleSeek}
-          className="group/track relative flex h-3 w-full cursor-pointer items-center"
+          className="group/track relative flex h-4 w-full cursor-pointer items-center"
         >
           {/* Sfondo barra */}
-          <div className="h-1 w-full rounded-full bg-white/20 transition-all group-hover/track:h-1.5">
+          <div className="h-1.5 md:h-2 w-full rounded-full bg-white/25 transition-all group-hover/track:h-2.5">
             {/* Avanzamento */}
             <div
               style={{ width: `${progressPercent}%` }}
               className="relative h-full rounded-full bg-[#e50914] transition-all"
             >
               {/* Cursore / Knob su hover */}
-              <div className="absolute right-0 top-1/2 h-2.5 w-2.5 -translate-y-1/2 translate-x-1/2 rounded-full bg-white shadow-md opacity-0 group-hover/track:opacity-100 transition-opacity" />
+              <div className="absolute right-0 top-1/2 h-3.5 w-3.5 -translate-y-1/2 translate-x-1/2 rounded-full bg-white shadow-lg opacity-0 group-hover/track:opacity-100 transition-opacity" />
             </div>
           </div>
         </div>
 
         {/* Pulsanti & Timestamp */}
-        <div className="mt-1 flex items-center justify-between text-white">
-          <div className="flex items-center gap-2.5">
+        <div className="mt-2 flex items-center justify-between text-white">
+          <div className="flex items-center gap-3">
             {/* Play/Pause Button */}
             <button
               onClick={togglePlay}
-              className="text-white/80 hover:text-white transition-colors"
+              className="text-white/90 hover:text-white transition-colors p-1"
               aria-label={isPlaying ? "Pausa" : "Riproduci"}
             >
               {isPlaying ? (
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
                   <rect x="6" y="4" width="4" height="16" />
                   <rect x="14" y="4" width="4" height="16" />
                 </svg>
               ) : (
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
                   <polygon points="5 3 19 12 5 21 5 3" />
                 </svg>
               )}
             </button>
 
             {/* Timestamp */}
-            <span className="text-[11px] tracking-wider text-white/70 font-mono">
+            <span className="text-xs md:text-sm tracking-wider text-white/90 font-mono">
               {formatTime(currentTime)} / {formatTime(duration)}
             </span>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3.5">
             {/* Mute / Unmute Button */}
             <button
               onClick={toggleMute}
-              className="text-white/80 hover:text-white transition-colors"
+              className="text-white/90 hover:text-white transition-colors p-1"
               aria-label={isMuted ? "Attiva audio" : "Silenzia"}
             >
               {isMuted ? (
-                /* Icona Muto con barra */
                 <svg
-                  className="w-4 h-4 stroke-current fill-none stroke-2"
+                  className="w-5 h-5 stroke-current fill-none stroke-2"
                   viewBox="0 0 24 24"
                 >
                   <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none" />
@@ -265,9 +267,8 @@ export default function ProjectVideoPlayer({
                   <line x1="17" y1="9" x2="23" y2="15" />
                 </svg>
               ) : (
-                /* Icona Audio Attivo */
                 <svg
-                  className="w-4 h-4 stroke-current fill-none stroke-2"
+                  className="w-5 h-5 stroke-current fill-none stroke-2"
                   viewBox="0 0 24 24"
                 >
                   <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none" />
@@ -279,19 +280,19 @@ export default function ProjectVideoPlayer({
             {/* Fullscreen Button */}
             <button
               onClick={toggleFullscreen}
-              className="text-white/80 hover:text-white transition-colors"
+              className="text-white/90 hover:text-white transition-colors p-1"
               aria-label={isFullscreen ? "Esci a schermo intero" : "Schermo intero"}
             >
               {isFullscreen ? (
                 <svg
-                  className="w-4 h-4 stroke-current fill-none stroke-2"
+                  className="w-5 h-5 stroke-current fill-none stroke-2"
                   viewBox="0 0 24 24"
                 >
                   <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3" />
                 </svg>
               ) : (
                 <svg
-                  className="w-4 h-4 stroke-current fill-none stroke-2"
+                  className="w-5 h-5 stroke-current fill-none stroke-2"
                   viewBox="0 0 24 24"
                 >
                   <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />

@@ -46,22 +46,23 @@ export default async function ProjectPage({
         </nav>
       </header>
 
-      {/* ───────── Sezione Contenuto Progetto (SOLO CONTENUTO: VIDEO & FOTO IN RIQUADRI COMPATTI) ───────── */}
-      <section className="pt-24 md:pt-28 pb-14 px-4 md:px-8 max-w-3xl mx-auto flex flex-col items-center">
+      {/* ───────── Sezione Contenuto Progetto (VIDEO GRANDE & CHIARO + FOTO) ───────── */}
+      <section className="pt-24 md:pt-32 pb-16 px-4 md:px-8 max-w-6xl mx-auto flex flex-col items-center">
         {/* Mostra Video / Reel con gestione intelligente dell'audio (nessuna sovrapposizione) */}
-        <div className="w-full flex flex-wrap items-center justify-center gap-4 md:gap-5 mb-6">
+        <div className="w-full flex flex-wrap items-center justify-center gap-6 md:gap-8 mb-8">
           {videos.map((vid, idx) => (
             <ProjectVideoPlayer
               key={vid.src + idx}
               src={vid.src}
+              poster={idx === 0 ? project.copertina?.src : undefined}
               isVertical={vid.h > vid.w}
             />
           ))}
         </div>
 
-        {/* Mostra Tutte le Foto in formato più grande e ordinato (2 Colonne, aspect 4/3) */}
+        {/* Mostra Tutte le Foto in formato grande e ordinato (2 Colonne, aspect 4/3) */}
         {photos.length > 0 && (
-          <div className="w-full max-w-3xl grid grid-cols-2 gap-3.5 md:gap-5">
+          <div className="w-full max-w-4xl grid grid-cols-2 gap-4 md:gap-6">
             {photos.map((foto, idx) => (
               <div
                 key={foto.src + idx}
